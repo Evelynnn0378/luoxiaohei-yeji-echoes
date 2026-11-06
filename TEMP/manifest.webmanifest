@@ -1,0 +1,17 @@
+{
+  "id": "../index.html",
+  "name": "罗小黑：叶隙回响｜非官方原创支线",
+  "short_name": "叶隙回响",
+  "description": "纯代码手绘开放区域游戏。与罗小黑一起，以空间传送和御金能力寻找五地失散的灵息。",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "../index.html",
+  "scope": "../",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#233f35",
+  "theme_color": "#233f35",
+  "categories": ["games", "entertainment"],
+  "prefer_related_applications": false,
+  "icons": []
+}

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#233f35">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="《罗小黑：叶隙回响》——非官方原创支线，纯代码手绘开放区域游戏。支持键盘、鼠标与手机多点触控，可直接离线游玩。">
+  <title>罗小黑：叶隙回响｜非官方原创支线</title>
+  <link rel="stylesheet" href="TEMP/css/game.css">
+</head>
+<body class="is-launching">
+  <a class="skip-link" href="#main-content">跳到主要内容</a>
+
+  <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M19.8 3.7C12.4 3.4 5.1 5.8 4.1 12.1c-.6 3.8 2.5 6.7 6 5.7 5.8-1.6 8.6-7.4 9.7-14.1Z"/><path d="M3 21c2.7-5.1 6.3-8.5 11.8-11.3M9.5 14.5l-.2-4.2m3.4 1.5 3.5.3"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+      <symbol id="i-continue" viewBox="0 0 24 24"><path d="M5 12h13m-5-5 5 5-5 5"/><path d="M5 5v14"/></symbol>
+      <symbol id="i-book" viewBox="0 0 24 24"><path d="M3.5 5.5c3.3-.8 6.1-.2 8.5 1.6v13c-2.4-1.8-5.2-2.4-8.5-1.6Zm17 0c-3.3-.8-6.1-.2-8.5 1.6v13c2.4-1.8 5.2-2.4 8.5-1.6Z"/></symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.8 3.5h4.4l.7 2.5 2.2 1.3 2.5-.6 2.2 3.8-1.9 1.8v2.5l1.9 1.8-2.2 3.8-2.5-.6-2.2 1.3-.7 2.5H9.8l-.7-2.5-2.2-1.3-2.5.6-2.2-3.8L4.1 15v-2.5l-1.9-1.8 2.2-3.8 2.5.6L9 6Z"/><path d="M15.5 12.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"/></symbol>
+      <symbol id="i-help" viewBox="0 0 24 24"><path d="M9.2 8a3 3 0 0 1 5.8 1c0 2.5-3 2.7-3 5"/><path d="M12 17.5v.2"/><path d="M20.5 12c0 4.7-3.8 8.5-8.5 8.5S3.5 16.7 3.5 12 7.3 3.5 12 3.5s8.5 3.8 8.5 8.5Z"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+      <symbol id="i-save" viewBox="0 0 24 24"><path d="M4 4h13l3 3v13H4Z"/><path d="M8 4v6h8V4M8 20v-6h8v6"/></symbol>
+      <symbol id="i-restart" viewBox="0 0 24 24"><path d="M4 10a8 8 0 1 1 1.8 7M4 10V4m0 6h6"/></symbol>
+      <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 10v4h4l5 4V6l-5 4Zm12-1c1.5 1.7 1.5 4.3 0 6m2.5-8.5c3 3 3 8 0 11"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8Zm7 14 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8Z"/></symbol>
+      <symbol id="i-teleport" viewBox="0 0 24 24"><path d="M7 7a7 7 0 1 1-1 8M7 7V2m0 5H2"/><path d="m11 9 5 3-5 3Z"/></symbol>
+      <symbol id="i-metal" viewBox="0 0 24 24"><path d="m12 3 7 5-2 9-5 4-5-4-2-9Z"/><path d="m9 9 3-2 3 2-1 5h-4Zm-4-1L2 7m17 1 3-1M12 3V0"/></symbol>
+      <symbol id="i-dash" viewBox="0 0 24 24"><path d="M3 7h8M1 12h8M4 17h7m3-10 6 5-6 5Z"/></symbol>
+      <symbol id="i-cat" viewBox="0 0 24 24"><path d="m5 9-1-6 5 3a11 11 0 0 1 6 0l5-3-1 6c1.7 5.4-1 11-7 11S3.3 14.4 5 9Z"/><path d="M8.5 12h.1m6.8 0h.1M10 16c1.3.8 2.7.8 4 0"/></symbol>
+      <symbol id="i-hand" viewBox="0 0 24 24"><path d="M8 12V5a2 2 0 0 1 4 0v6-8a2 2 0 0 1 4 0v8-5a2 2 0 0 1 4 0v9c0 4-2.5 6-6 6h-1c-2.5 0-4-1-5.5-3L3 12.5c-1-2 1-3.5 2.5-2Z"/></symbol>
+      <symbol id="i-fly" viewBox="0 0 24 24"><path d="M3 15c5-1 7-5 8-11 3 4 4 7 3 10l6-2-3 5c-4 3-9 3-14-2Z"/><path d="M7 18c2-2 4-3 7-4"/></symbol>
+      <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Zm6-2v16m6-14v16"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-4-9v2m0 14v2M3 12h2m14 0h2M5.6 5.6 7 7m10 10 1.4 1.4m0-12.8L17 7M7 17l-1.4 1.4"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></symbol>
+      <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></symbol>
+    </defs>
+  </svg>
+
+  <main id="main-content">
+    <section id="launch-screen" class="launch-screen" aria-labelledby="game-title">
+      <div class="forest-scene" aria-hidden="true">
+        <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#d9e6ce"/><stop offset=".58" stop-color="#a8c2a4"/><stop offset="1" stop-color="#688b74"/></linearGradient>
+            <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#6f9275"/><stop offset="1" stop-color="#2d5144"/></linearGradient>
+            <linearGradient id="light" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff9cf" stop-opacity=".75"/><stop offset="1" stop-color="#fff9cf" stop-opacity="0"/></linearGradient>
+            <filter id="soft"><feGaussianBlur stdDeviation="11"/></filter>
+          </defs>
+          <path fill="url(#sky)" d="M0 0h1440v900H0z"/>
+          <g fill="none" stroke="#7f9f80" stroke-width="2" opacity=".45">
+            <path d="M72 163c82-49 132-41 202-1s141 41 213-4M861 105c69-29 120-28 190 6s136 30 212-12"/>
+            <path d="M925 246c88-37 142-26 204 4s113 26 178-10M30 302c65-32 119-31 173-1"/>
+          </g>
+          <g opacity=".4" fill="#6f9177">
+            <path d="M0 450 99 228l25 115 72-191 45 177 80-136 48 191 91-216 63 221 69-147 66 185 97-207 54 186 80-141 61 174 85-199 73 195 85-136 72 178v301H0Z"/>
+          </g>
+          <g opacity=".62" fill="#52765f">
+            <path d="M0 512 103 321l36 111 72-154 50 172 86-131 57 180 96-202 61 204 91-143 55 159 91-172 64 177 95-144 69 147 92-172 70 191 96-124 56 152v263H0Z"/>
+          </g>
+          <path fill="url(#light)" d="m550-30 330 0 380 760-585 0z" opacity=".55"/>
+          <g fill="#436752" stroke="#365745" stroke-width="4" stroke-linejoin="round">
+            <path d="M1050 0c-38 166-40 309-16 486l-25 228 112 4-19-235c44-150 43-312 29-483Z"/>
+            <path d="M1060 217c-74-44-133-107-167-184l35-15c40 75 88 113 148 141Zm19 92c69-54 121-119 151-203l-35-14c-32 70-72 114-128 148Z"/>
+          </g>
+          <g fill="#315a47" opacity=".95">
+            <path d="M853 0h587v105c-45 34-101 37-142 10-18 56-91 76-139 43-37 56-122 59-158 4-65 37-131 12-148-38Z"/>
+            <path d="M0 0h393v79c-36 42-105 44-143 5-36 55-113 57-150 10C62 123 20 110 0 92Z"/>
+          </g>
+          <g fill="none" stroke="#90ac7c" stroke-width="5" stroke-linecap="round" opacity=".75">
+            <path d="M1138 45c-18 55-7 99 30 133m-167-95c-7 44 5 76 35 98M176 16c-9 45 1 78 29 103"/>
+          </g>
+          <path fill="url(#ground)" d="M0 604c190-63 330-22 473 13 180 44 291-60 475-39 187 22 296 91 492 25v297H0Z"/>
+          <path fill="#789671" d="M0 711c200-86 350-22 482 15 188 52 368-60 521-38 172 25 282 63 437 14v198H0Z" opacity=".62"/>
+          <path fill="#b9bd91" d="M713 900c44-91 104-137 197-174 81-32 106-73 111-126 54 82 16 142-65 185-61 33-88 67-102 115Z" opacity=".75"/>
+          <g fill="none" stroke="#b3ca92" stroke-width="3" stroke-linecap="round" opacity=".65">
+            <path d="M71 735q8-62 24-80m-13 44-25-22m32 5 23-27M1265 723q-2-72-28-108m15 55 29-25m-37 5-20-29M533 762q-2-46-21-71m12 36 21-19M1327 813q4-54 24-82m-13 42-22-18"/>
+          </g>
+          <g class="scene-spirit" fill="#f7efb1">
+            <circle cx="822" cy="308" r="4"/><circle cx="934" cy="421" r="3"/><circle cx="733" cy="491" r="3.5"/><circle cx="1208" cy="548" r="3"/><circle cx="611" cy="359" r="2.5"/>
+          </g>
+          <g class="scene-cat" transform="translate(1010 556)">
+            <ellipse cx="96" cy="176" rx="111" ry="18" fill="#25483b" opacity=".3"/>
+            <path d="M141 147c57 4 79-32 59-62-7-11-22-9-22 4 17 27-2 37-40 30" fill="none" stroke="#172b29" stroke-width="22" stroke-linecap="round"/>
+            <path d="M43 97c-8 34 2 70 35 79 39 9 88-3 96-40 7-34-10-69-45-76Z" fill="#172b29"/>
+            <path d="M42 70 34 13l43 29c17-7 39-7 56 0l43-29-8 61c12 42-17 72-64 72-45 0-74-30-62-76Z" fill="#142725" stroke="#29453d" stroke-width="3" stroke-linejoin="round"/>
+            <path d="m45 37 22 17-20 9Zm108 0-22 17 20 9Z" fill="#567565"/>
+            <ellipse cx="73" cy="89" rx="14" ry="19" fill="#f5f0d8"/><ellipse cx="133" cy="89" rx="14" ry="19" fill="#f5f0d8"/>
+            <ellipse cx="77" cy="91" rx="4" ry="12" fill="#27473d"/><ellipse cx="129" cy="91" rx="4" ry="12" fill="#27473d"/>
+            <path d="M96 111q7 6 14 0m-7-3v7" fill="none" stroke="#a9b8a0" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M49 174v20m37-16v22m44-22v18m28-26v22" stroke="#172b29" stroke-width="17" stroke-linecap="round"/>
+          </g>
+          <g transform="translate(835 680)" fill="#182d29">
+            <ellipse cx="0" cy="0" rx="15" ry="19"/><path d="m-11-11-7-13 14 6m15 7 7-13-14 6"/>
+            <circle cx="-5" cy="-2" r="3" fill="#f5f0d8"/><circle cx="5" cy="-2" r="3" fill="#f5f0d8"/>
+          </g>
+          <g fill="#d9d2a4" opacity=".8">
+            <path d="m1190 370 8 19-12 17-8-19Zm-363 75 7 16-11 14-7-16ZM603 189l7 17-11 13-7-16Z"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="launch-layout">
+        <article class="launch-journal">
+          <span class="paper-tape" aria-hidden="true"></span>
+          <div class="launch-meta">
+            <span class="field-label">LUOXIAOHEI · FIELD NOTES</span>
+            <span class="unofficial-badge"><svg class="icon"><use href="#i-leaf"/></svg>非官方 · 原创支线</span>
+          </div>
+          <p class="chapter-mark">森林手账 · 番外页 01</p>
+          <h1 id="game-title"><span>罗小黑</span><strong>叶隙回响</strong></h1>
+          <p class="launch-tagline">一片叶子落下，五地的回响同时醒来。</p>
+          <p class="launch-intro">与罗小黑穿过叶隙森林、龙游会馆与离岛海岸，以空间传送和御金能力，把失散的灵息一一送回。这是一段发生在原作世界边缘的全新故事。</p>
+          <ul class="feature-list" aria-label="游戏特点">
+            <li>纯代码手绘</li><li>开放区域</li><li>完整原创主线</li><li>桌面 / 触控</li>
+          </ul>
+          <div class="launch-actions">
+            <button id="start-game" class="button button-primary button-large" type="button"><svg class="icon"><use href="#i-play"/></svg><span>踏入叶隙<small>开始新的旅程</small></span></button>
+            <button id="continue-game" class="button button-paper" type="button"><svg class="icon"><use href="#i-continue"/></svg><span>继续旅程</span></button>
+          </div>
+          <div class="launch-links" aria-label="启动选项">
+            <button class="text-button" type="button" data-open="codex"><svg class="icon"><use href="#i-book"/></svg>翻看图鉴</button>
+            <button class="text-button" type="button" data-open="help"><svg class="icon"><use href="#i-help"/></svg>操作说明</button>
+            <button class="text-button" type="button" data-open="settings"><svg class="icon"><use href="#i-settings"/></svg>旅途设置</button>
+          </div>
+          <p id="boot-error" class="boot-error" role="alert" hidden></p>
+          <div class="launch-footnote">
+            <p>本游戏为非官方二次创作，主线与事件均为原创支线，不属于原作正史。</p>
+            <button class="source-link" type="button" data-open="sources">资料来源与创作边界<span aria-hidden="true"> →</span></button>
+          </div>
+        </article>
+      </div>
+      <div class="launch-corner-note" aria-hidden="true"><span>NO. 05</span>叶隙森林观察记录</div>
+      <p class="launch-compatibility">无需联网 · 无第三方库 · 横竖屏均可游玩</p>
+    </section>
+
+    <section id="game-shell" class="game-shell" aria-label="罗小黑：叶隙回响游戏区域" hidden>
+      <canvas id="game-canvas" tabindex="0" aria-label="游戏画布。使用 WASD 或方向键移动，E 键交互，Escape 暂停。手机使用屏幕两侧触控。">你的浏览器不支持 Canvas，无法显示游戏画面。</canvas>
+
+      <div id="hud" class="hud">
+        <section class="status-card hud-card" aria-label="罗小黑状态">
+          <div class="portrait-seal" aria-hidden="true"><svg class="icon"><use href="#i-cat"/></svg></div>
+          <div class="status-main">
+            <div class="status-name"><strong>罗小黑</strong><span id="hud-form">人形</span></div>
+            <div class="meter-row"><span>体力</span><div id="health-meter" class="meter health-meter" role="progressbar" aria-label="体力" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="health-fill"></i></div><output id="health-value">100</output></div>
+            <div class="meter-row"><span>灵力</span><div id="energy-meter" class="meter energy-meter" role="progressbar" aria-label="灵力" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><i id="energy-fill"></i></div><output id="energy-value">100</output></div>
+          </div>
+        </section>
+
+        <section id="objective-card" class="objective-card hud-card" aria-label="当前主线目标">
+          <div class="objective-heading"><svg class="icon"><use href="#i-leaf"/></svg><span>当前回响</span><small>原创支线</small></div>
+          <h2 id="objective-title">循着叶脉，寻找第一声回响</h2>
+          <p id="objective-detail">沿着林间的微光前进，与遇见的伙伴交谈。</p>
+          <div class="objective-progress" id="objective-progress" hidden><i id="objective-progress-fill"></i></div>
+          <span id="objective-count" class="objective-count" hidden></span>
+        </section>
+
+        <div class="hud-location hud-card">
+          <svg class="icon"><use href="#i-map"/></svg>
+          <div><strong id="hud-zone">叶隙森林</strong><span><svg class="icon" id="time-icon"><use href="#i-sun"/></svg><output id="hud-time">08:10</output></span></div>
+        </div>
+
+        <nav class="hud-tools" aria-label="游戏工具">
+          <button class="icon-button" type="button" data-open="codex" aria-label="打开图鉴" title="图鉴（I）"><svg class="icon"><use href="#i-book"/></svg></button>
+          <button class="icon-button" type="button" data-open="help" aria-label="打开操作说明" title="操作说明（H）"><svg class="icon"><use href="#i-help"/></svg></button>
+          <button class="icon-button" type="button" data-open="settings" aria-label="打开设置" title="设置"><svg class="icon"><use href="#i-settings"/></svg></button>
+          <button id="pause-button" class="icon-button" type="button" aria-label="暂停游戏" title="暂停（Esc）"><svg class="icon"><use href="#i-pause"/></svg></button>
+        </nav>
+      </div>
+
+      <div id="interaction-hint" class="interaction-hint" hidden><kbd>E</kbd><span id="interaction-text">交谈</span></div>
+
+      <nav id="ability-dock" class="ability-dock" aria-label="能力快捷栏">
+        <button class="ability-button" type="button" data-ability="teleport" aria-label="空间传送，选择后点击场景目标"><svg class="icon"><use href="#i-teleport"/></svg><span>传送</span><kbd>Q</kbd><i class="cooldown" aria-hidden="true"></i></button>
+        <button class="ability-button" type="button" data-ability="metal" aria-label="御金，选择后点击场景目标"><svg class="icon"><use href="#i-metal"/></svg><span>御金</span><kbd>J</kbd><i class="cooldown" aria-hidden="true"></i></button>
+        <button class="ability-button" type="button" data-ability="dash" aria-label="冲刺"><svg class="icon"><use href="#i-dash"/></svg><span>冲刺</span><kbd>空格</kbd><i class="cooldown" aria-hidden="true"></i></button>
+        <button class="ability-button" type="button" data-ability="heixiu" aria-label="召唤嘿咻"><svg class="icon"><use href="#i-spark"/></svg><span>嘿咻</span><kbd>R</kbd><i class="cooldown" aria-hidden="true"></i></button>
+        <button class="ability-button" type="button" data-action="form" aria-label="切换猫形与人形"><svg class="icon"><use href="#i-cat"/></svg><span>形态</span><kbd>C</kbd></button>
+        <button class="ability-button interact-button" type="button" data-action="interact" aria-label="交互"><svg class="icon"><use href="#i-hand"/></svg><span>交互</span><kbd>E</kbd></button>
+      </nav>
+
+      <div id="touch-controls" class="touch-controls" aria-label="触控操作区">
+        <div id="joystick-zone" class="joystick-zone" aria-label="虚拟摇杆区域">
+          <div id="joystick-base" class="joystick-base" role="application" aria-label="拖动摇杆移动罗小黑"><div id="joystick-knob" class="joystick-knob"><svg class="icon"><use href="#i-leaf"/></svg></div></div>
+          <span class="touch-caption">移动</span>
+        </div>
+        <div class="touch-actions" aria-label="能力按钮">
+          <button class="touch-button touch-small" type="button" data-touch-action="fly" aria-label="切换飞行" aria-pressed="false"><svg class="icon"><use href="#i-fly"/></svg><span>飞行</span></button>
+          <button class="touch-button touch-small" type="button" data-touch-action="form" aria-label="切换形态"><svg class="icon"><use href="#i-cat"/></svg><span>形态</span></button>
+          <button class="touch-button touch-small" type="button" data-touch-action="heixiu" aria-label="召唤嘿咻"><svg class="icon"><use href="#i-spark"/></svg><span>嘿咻</span></button>
+          <button class="touch-button" type="button" data-touch-action="teleport" aria-label="向摇杆方向空间传送"><svg class="icon"><use href="#i-teleport"/></svg><span>传送</span><i class="cooldown" aria-hidden="true"></i></button>
+          <button class="touch-button" type="button" data-touch-action="metal" aria-label="向摇杆方向使用御金"><svg class="icon"><use href="#i-metal"/></svg><span>御金</span><i class="cooldown" aria-hidden="true"></i></button>
+          <button class="touch-button" type="button" data-touch-action="dash" aria-label="冲刺"><svg class="icon"><use href="#i-dash"/></svg><span>冲刺</span><i class="cooldown" aria-hidden="true"></i></button>
+          <button class="touch-button touch-interact" type="button" data-touch-action="interact" aria-label="交互"><svg class="icon"><use href="#i-hand"/></svg><span>交互</span></button>
+        </div>
+      </div>
+
+      <section id="dialogue-box" class="dialogue-box" role="dialog" aria-modal="false" aria-labelledby="dialogue-speaker" hidden>
+        <canvas id="dialogue-portrait" width="112" height="112" aria-hidden="true"></canvas>
+        <div class="dialogue-copy"><h2 id="dialogue-speaker">罗小黑</h2><p id="dialogue-text"></p><span id="dialogue-progress" aria-live="polite"></span></div>
+        <button id="dialogue-next" class="button button-primary" type="button">继续<span aria-hidden="true"> →</span></button>
+      </section>
+
+      <div id="toast-region" class="toast-region" role="status" aria-live="polite" aria-atomic="false"></div>
+      <div id="aim-hint" class="aim-hint" role="status" hidden>点击场景选择落点 · 右键或 Esc 取消</div>
+    </section>
+
+    <div id="overlay-backdrop" class="overlay-backdrop" hidden></div>
+
+    <section id="pause-screen" class="overlay" role="dialog" aria-modal="true" aria-labelledby="pause-title" hidden>
+      <article class="modal journal-modal pause-modal">
+        <span class="paper-tape" aria-hidden="true"></span>
+        <p class="chapter-mark">在树荫下歇一会儿</p>
+        <h2 id="pause-title">旅途暂停</h2>
+        <p class="modal-lead">风会等你，叶隙的回响也会。</p>
+        <div class="pause-actions">
+          <button id="resume-button" class="button button-primary" type="button"><svg class="icon"><use href="#i-play"/></svg>继续旅途</button>
+          <button class="button button-paper" type="button" data-open="settings"><svg class="icon"><use href="#i-settings"/></svg>旅途设置</button>
+          <button class="button button-paper" type="button" data-open="help"><svg class="icon"><use href="#i-help"/></svg>操作说明</button>
+          <button id="save-button" class="button button-paper" type="button"><svg class="icon"><use href="#i-save"/></svg>保存进度</button>
+          <button id="restart-button" class="button button-quiet" type="button"><svg class="icon"><use href="#i-restart"/></svg>重新开始</button>
+          <button id="title-button" class="button button-quiet" type="button"><svg class="icon"><use href="#i-book"/></svg>返回手账封面</button>
+        </div>
+        <div id="restart-confirm" class="restart-confirm" hidden>
+          <p>确定重新开始吗？未保存的旅途进度将会丢失。</p>
+          <button id="restart-confirm-yes" class="button button-danger" type="button">确定重新开始</button>
+          <button id="restart-confirm-no" class="button button-quiet" type="button">再想想</button>
+        </div>
+        <span class="key-note">按 Esc 也可继续</span>
+      </article>
+    </section>
+
+    <section id="settings-screen" class="overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title" hidden>
+      <article class="modal journal-modal settings-modal">
+        <header class="modal-header"><div><p class="chapter-mark">旅途偏好</p><h2 id="settings-title">设置</h2></div><button class="icon-button" type="button" data-close aria-label="关闭设置"><svg class="icon"><use href="#i-close"/></svg></button></header>
+        <p class="modal-lead">调整会立即生效，并尽量保存在当前浏览器中。</p>
+        <form id="settings-form" class="settings-form">
+          <fieldset><legend><svg class="icon"><use href="#i-cat"/></svg>行动</legend>
+            <label class="range-setting" for="setting-move"><span>行走速度<output id="setting-move-value" for="setting-move">1.0×</output></span><input id="setting-move" name="moveSpeed" type="range" min="0.5" max="2" step="0.1" value="1"><small>只调整移动手感，不改变任务进度。</small></label>
+            <label class="range-setting" for="setting-flight"><span>飞行速度<output id="setting-flight-value" for="setting-flight">1.0×</output></span><input id="setting-flight" name="flightSpeed" type="range" min="0.5" max="2.5" step="0.1" value="1"><small>飞行时使用的速度倍率。</small></label>
+          </fieldset>
+          <fieldset><legend><svg class="icon"><use href="#i-sun"/></svg>昼夜</legend>
+            <label class="range-setting" for="setting-day"><span>当前时间<output id="setting-day-value" for="setting-day">08:10</output></span><input id="setting-day" name="dayTime" type="range" min="0" max="0.99" step="0.01" value="0.34"><small>拖动可定格到一天中的任意时刻。</small></label>
+            <label class="range-setting" for="setting-time-scale"><span>昼夜流速<output id="setting-time-scale-value" for="setting-time-scale">1.0×</output></span><input id="setting-time-scale" name="timeScale" type="range" min="0.1" max="4" step="0.1" value="1"></label>
+            <label class="switch-setting" for="setting-auto-day"><span>自动昼夜循环<small>让森林的时间自然前进</small></span><input id="setting-auto-day" name="autoDay" type="checkbox" checked><i aria-hidden="true"></i></label>
+          </fieldset>
+          <fieldset><legend><svg class="icon"><use href="#i-spark"/></svg>画面与声音</legend>
+            <label class="switch-setting" for="setting-lighting"><span>2D 光线追踪<small>柔光与遮挡计算；低性能设备可关闭</small></span><input id="setting-lighting" name="lighting" type="checkbox" checked><i aria-hidden="true"></i></label>
+            <label class="select-setting" for="setting-quality"><span>画质</span><select id="setting-quality" name="quality"><option value="high">细腻</option><option value="medium">均衡</option><option value="low">流畅</option></select></label>
+            <label class="switch-setting" for="setting-sound"><span>声音<small>程序生成的环境声与音效</small></span><input id="setting-sound" name="sound" type="checkbox" checked><i aria-hidden="true"></i></label>
+            <label class="switch-setting" for="setting-motion"><span>减少动态效果<small>减少粒子、漂浮与界面过渡</small></span><input id="setting-motion" name="reducedMotion" type="checkbox"><i aria-hidden="true"></i></label>
+          </fieldset>
+        </form>
+        <footer class="modal-footer"><button id="fullscreen-button" class="button button-paper" type="button"><svg class="icon"><use href="#i-expand"/></svg>全屏游玩</button><button id="reset-settings" class="button button-quiet" type="button">恢复默认设置</button><button class="button button-primary" type="button" data-close>完成</button></footer>
+      </article>
+    </section>
+
+    <section id="codex-screen" class="overlay" role="dialog" aria-modal="true" aria-labelledby="codex-title" hidden>
+      <article class="modal journal-modal codex-modal">
+        <header class="modal-header"><div><p class="chapter-mark">森林手账 · 资料夹</p><h2 id="codex-title">叶隙图鉴</h2></div><button class="icon-button" type="button" data-close aria-label="关闭图鉴"><svg class="icon"><use href="#i-close"/></svg></button></header>
+        <div class="codex-toolbar">
+          <div class="codex-tabs" role="tablist" aria-label="图鉴分类">
+            <button id="tab-characters" role="tab" aria-selected="true" aria-controls="codex-panel" data-codex-tab="characters" type="button">人物</button>
+            <button id="tab-places" role="tab" aria-selected="false" aria-controls="codex-panel" data-codex-tab="places" type="button" tabindex="-1">地点</button>
+            <button id="tab-terms" role="tab" aria-selected="false" aria-controls="codex-panel" data-codex-tab="terms" type="button" tabindex="-1">术语</button>
+            <button id="tab-quest" role="tab" aria-selected="false" aria-controls="codex-panel" data-codex-tab="questText" type="button" tabindex="-1">原创主线</button>
+            <button id="tab-sources" role="tab" aria-selected="false" aria-controls="codex-panel" data-codex-tab="sources" type="button" tabindex="-1">资料来源</button>
+          </div>
+          <label class="codex-search" for="codex-search"><span class="sr-only">检索当前图鉴分类</span><input id="codex-search" type="search" placeholder="在这一页寻找……" autocomplete="off"></label>
+        </div>
+        <div id="codex-panel" class="codex-panel" role="tabpanel" aria-labelledby="tab-characters" tabindex="0"><div id="codex-content" class="codex-grid"></div></div>
+        <footer class="codex-note"><span class="legend-canon">原作资料</span>与<span class="legend-original">游戏原创</span>分开标记；未明确的信息不补写为官方设定。</footer>
+      </article>
+    </section>
+
+    <section id="help-screen" class="overlay" role="dialog" aria-modal="true" aria-labelledby="help-title" hidden>
+      <article class="modal journal-modal help-modal">
+        <header class="modal-header"><div><p class="chapter-mark">第一次来到叶隙？</p><h2 id="help-title">操作说明</h2></div><button class="icon-button" type="button" data-close aria-label="关闭操作说明"><svg class="icon"><use href="#i-close"/></svg></button></header>
+        <div class="help-grid">
+          <section><h3>键盘与鼠标</h3><dl class="control-list">
+            <div><dt><kbd>WASD</kbd> / <kbd>方向键</kbd></dt><dd>移动罗小黑</dd></div>
+            <div><dt><kbd>Shift</kbd></dt><dd>加速行走</dd></div>
+            <div><dt><kbd>F</kbd> / <kbd>V</kbd></dt><dd>切换飞行 / 落地</dd></div>
+            <div><dt><kbd>E</kbd></dt><dd>交谈、调查、拾取</dd></div>
+            <div><dt><kbd>Q</kbd></dt><dd>空间传送</dd></div>
+            <div><dt><kbd>J</kbd></dt><dd>御金</dd></div>
+            <div><dt><kbd>空格</kbd></dt><dd>冲刺</dd></div>
+            <div><dt><kbd>R</kbd></dt><dd>嘿咻协助</dd></div>
+            <div><dt><kbd>C</kbd></dt><dd>猫形 / 人形切换</dd></div>
+            <div><dt><kbd>I</kbd> / <kbd>H</kbd></dt><dd>图鉴 / 操作说明</dd></div>
+            <div><dt><kbd>Esc</kbd></dt><dd>暂停、返回或取消选点</dd></div>
+          </dl><p class="help-tip">直接点击场景可使用御金；也可先选下方传送或御金按钮，再点击场景精确选点。右键取消选点。</p></section>
+          <section><h3>手机与平板</h3><div class="touch-help-diagram" aria-hidden="true"><span>左侧<br>虚拟摇杆</span><i></i><span>右侧<br>能力按钮</span></div><ul class="plain-list"><li>左侧拖动虚拟摇杆移动，拖得越远，方向越明确。</li><li>右侧点击交互、传送、御金、冲刺、嘿咻与形态按钮。</li><li>传送和御金会优先朝摇杆方向，其次朝角色面向施放。</li><li>支持双区多点触控，可一边移动一边使用能力。</li><li>点击“飞行”切换飞行状态，再按一次落地。</li></ul><p class="help-tip">横屏能看到更宽的世界；竖屏布局会自动调整。按钮已避开刘海与系统手势安全区。</p></section>
+          <section class="help-accessibility"><h3>舒适游玩</h3><p>所有菜单均可使用 Tab 键导航、Enter 确认、Esc 返回。设置中可调整行走与飞行速度、昼夜、2D 光线追踪、画质、声音，并开启“减少动态效果”。系统偏好减少动态效果时，也会默认采用。</p><p>本作战斗为非致命切磋。若暂时找不到方向，打开图鉴查看当前原创主线，或沿 HUD 的目标提示前进。</p></section>
+        </div>
+        <footer class="modal-footer"><button class="button button-primary" type="button" data-close>记下了</button></footer>
+      </article>
+    </section>
+
+    <section id="ending-screen" class="overlay ending-overlay" role="dialog" aria-modal="true" aria-labelledby="ending-title" hidden>
+      <article class="modal journal-modal ending-modal">
+        <span class="paper-tape" aria-hidden="true"></span>
+        <svg class="ending-leaf icon" aria-hidden="true"><use href="#i-leaf"/></svg>
+        <p class="chapter-mark">原创支线 · 完</p>
+        <h2 id="ending-title">叶隙重新有了回声</h2>
+        <p id="ending-text" class="ending-text">最后一缕灵息回到叶脉，五地的灯火在夜色里彼此应答。小黑收起金属薄片，嘿咻落在肩头。明天依然会有新的路，而这一次，每条路都通向可以回去的地方。</p>
+        <p class="ending-note">感谢你走完这段非官方原创支线。它不是原作正史，只是一页写在森林边缘的想象。</p>
+        <div id="ending-stats" class="ending-stats" aria-label="旅途统计"></div>
+        <div class="ending-actions"><button id="ending-roam" class="button button-primary" type="button"><svg class="icon"><use href="#i-leaf"/></svg>继续漫游</button><button id="ending-restart" class="button button-paper" type="button"><svg class="icon"><use href="#i-restart"/></svg>再走一次</button><button id="ending-title-button" class="button button-quiet" type="button">返回手账封面</button></div>
+        <button class="source-link" type="button" data-open="sources">查看资料来源与创作边界<span aria-hidden="true"> →</span></button>
+      </article>
+    </section>
+  </main>
+
+  <noscript><div class="noscript-note">这片森林需要 JavaScript 才能苏醒。请在浏览器中启用 JavaScript 后重新打开本页。</div></noscript>
+
+  <script src="TEMP/data/lore.js"></script>
+  <script src="TEMP/js/art.js"></script>
+  <script src="TEMP/js/world.js"></script>
+  <script src="TEMP/js/entities.js"></script>
+  <script src="TEMP/js/abilities.js"></script>
+  <script src="TEMP/js/vfx.js"></script>
+  <script src="TEMP/js/audio.js"></script>
+  <script src="TEMP/js/story.js"></script>
+  <script src="TEMP/js/ui.js"></script>
+  <script src="TEMP/js/game.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+TEMP/research/
+TEMP/assets/
+TEMP/tests/
+TEMP/architecture.json
+TEMP/serve.py
+TEMP/deploy-manifest.json
+.DS_Store
